@@ -1,4 +1,7 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Refit;
+using RegisterationService;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -7,6 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddRefitClient<ISignatureAPI>().ConfigureHttpClient(c => 
+{
+    // TODO : The value of the url should come from the configurations which should be stored in some sort of vault.
+    c.BaseAddress = new Uri(builder.Configuration.GetValue<string>("https://localhost:7221"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
