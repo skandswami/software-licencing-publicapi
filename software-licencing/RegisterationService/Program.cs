@@ -1,5 +1,8 @@
 ﻿using Refit;
 using RegisterationService;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using RegisterationService.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterSoftwareRequestModel>();
 
 builder.Services.AddRefitClient<ISignatureAPI>().ConfigureHttpClient(c => 
 {
